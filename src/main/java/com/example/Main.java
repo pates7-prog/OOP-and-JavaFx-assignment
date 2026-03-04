@@ -45,12 +45,19 @@ public class Main extends Application {
         leftPanel.setAlignment(Pos.TOP_CENTER);
         leftPanel.setPadding(new Insets(20));
 
-        ImageView avatar = new ImageView(
-                new Image(getClass().getResourceAsStream("/avatar.png"))
-        );
-        avatar.setFitWidth(100);
-        avatar.setFitHeight(100);
-
+        ImageView avatar = new ImageView();
+        try {
+            Image image = new Image(getClass().getResource("/avatar.png").toExternalForm());
+            avatar.setImage(image);
+            avatar.setFitWidth(100);
+            avatar.setFitHeight(100);
+        } catch (Exception e) {
+            // If image not found, just show empty space
+            System.out.println("Avatar image not found, using placeholder");
+            avatar.setFitWidth(100);
+            avatar.setFitHeight(100);
+            avatar.setStyle("-fx-background-color: gray;");
+        }
         leftPanel.getChildren().add(avatar);
         leftPanel.getStyleClass().add("left-panel");
 
@@ -163,7 +170,7 @@ public class Main extends Application {
         root.setBottom(footer);
 
         Scene scene = new Scene(root, 900, 600);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
         stage.setTitle("FSC CSC325 _ Full Stack Project");
         stage.setScene(scene);
